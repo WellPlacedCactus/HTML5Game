@@ -1,21 +1,27 @@
 
 import Particle from '../particle.js';
 
-// enhanced color system?!
 
 export default class Spark extends Particle {
 
-	constructor(x, y, size, vx, vy, decay) {
-		super(x, y, size, 'yellow', vx, vy, decay);
+	constructor(x, y, rotation, scale, direction, magnitude) {
+		super([x, y], rotation, scale, [direction, magnitude], 60);
+		this.rotationSpeed = Math.random() * 0.5;
 	}
 
 	tick() {
-		this.x += this.vx;
-		this.y += this.vy;
+		this.translate(this.velocity);
+		this.rotate(this.rotationSpeed);
+		this.scaleBy(-0.5);
+		this.slow(0.1);
+	}
 
-		this.size -= this.decay;
-		if (this.size < 0) {
-			this.die();
-		}
+	draw(c) {
+		c.fillStyle = `hsl(${this.color}, 100%, 50%)`;
+		c.save();
+		c.translate(this.position[0], this.position[1]);
+		c.rotate(this.rotation);
+		c.fillRect(-this.scale / 2, -this.scale / 2, this.scale, this.scale);
+		c.restore();
 	}
 }

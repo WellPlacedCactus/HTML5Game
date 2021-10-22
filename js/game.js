@@ -2,27 +2,26 @@
 import Mouse from './input/mouse.js';
 import Keyboard from './input/keyboard.js';
 import EntityHandler from './entities/entity-handler.js';
-import GreenSquare from './entities/children/green-square.js';
+import ColorfulSquare from './entities/children/colorful-square.js';
 import Random from './misc/random.js';
 
 export default class Game {
 
 	constructor() {
 		this.canvas = document.querySelector('canvas');
-		this.canvas.width = innerWidth;
-		this.canvas.height = innerHeight;
+		this.canvas.width = Game.width;
+		this.canvas.height = Game.height;
 		this.c = this.canvas.getContext('2d');
-		Game.width = this.canvas.width;
-		Game.height = this.canvas.height;
 
 		this.random = new Random();
 		this.entityHandler = new EntityHandler();
 		for (let i = 0; i < 10; i++) {
-			this.entityHandler.add(new GreenSquare(
+			this.entityHandler.add(new ColorfulSquare(
 				this.random.randint(0, Game.width - 150),
 				this.random.randint(0, Game.height - 150),
 				this.random.randint(100, 200),
-				this.random.randint(100, 200)
+				this.random.randint(100, 200),
+				this.random.randint(0, 360)
 			));
 		}
 
@@ -58,8 +57,8 @@ export default class Game {
 	}
 }
 
-Game.width = 0;
-Game.height = 0;
+Game.width = 640;
+Game.height = 480;
 Game.mouse = new Mouse();
 Game.keyboard = new Keyboard();
 

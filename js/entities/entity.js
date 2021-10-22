@@ -1,15 +1,16 @@
 
+import Random from '../misc/random.js';
+
 
 export default class Entity {
 	
-	constructor(x, y, width, height, color='white') {
-		this.x = x;
-		this.y = y;
-		this.width = width;
-		this.height = height;
+	constructor(position, size, color) {
+		this.position = position;
+		this.size = size;
 		this.color = color;
 		this.dead = false;
 		this.handler = null;
+		this.random = new Random();
 	}
 
 	die() {
@@ -19,7 +20,12 @@ export default class Entity {
 	tick() {}
 
 	draw(c) {
-		c.fillStyle = this.color;
-		c.fillRect(this.x, this.y, this.width, this.height);
+		c.fillStyle = `hsl(${this.color}, 100%, 50%)`;
+		c.fillRect(
+			this.position[0],
+			this.position[1],
+			this.size[0],
+			this.size[1],
+		);
 	}
 }

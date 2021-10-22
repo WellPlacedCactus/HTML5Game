@@ -2,16 +2,37 @@
 
 export default class Particle {
 
-	constructor(x, y, size, color, vx, vy, decay) {
-		this.x = x;
-		this.y = y;
-		this.size = size;
+	constructor(position, rotation, scale, velocity, color) {
+		this.position = position;
+		this.rotation = rotation;
+		this.scale = scale;
+		this.velocity = velocity;
 		this.color = color;
-		this.vx = vx;
-		this.vy = vy;
-		this.decay = decay;
 		this.dead = false;
 		this.handler = null;
+	}
+
+	translate(vector) {
+		this.position[0] += Math.cos(vector[0]) * vector[1];
+		this.position[1] += Math.sin(vector[0]) * vector[1];
+	}
+
+	rotate(scalar) {
+		this.rotation += scalar;
+	}
+
+	scaleBy(scalar) {
+		this.scale += scalar;
+		if (this.scale < 0) {
+			this.die();
+		}
+	}
+
+	slow(scalar) {
+		this.velocity[1] -= scalar;
+		if (this.velocity[1] < 0) {
+			this.die();
+		}
 	}
 
 	die() {
@@ -21,7 +42,12 @@ export default class Particle {
 	tick() {}
 
 	draw(c) {
-		c.fillStyle = this.color;
-		c.fillRect(this.x, this.y, this.size, this.size);
+		c.fillStyle = `hsl(${this.color}, 100%, 50%)`;
+		c.fillRect(
+			this.position[0],
+			this.position[1],
+			this.scale,
+			this.scale
+		);
 	}
 }
